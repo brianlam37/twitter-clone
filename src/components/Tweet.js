@@ -1,8 +1,12 @@
 import React from 'react'
+import tweetService from '../services/tweets'
+import {useDispatch} from 'react-redux'
+import {like} from '../reducers/tweetReducer'
 const SECONDS_IN_DAY  = 86400
 const SECONDS_IN_HOUR = 3600
 const SECONDS_IN_MIN = 60
 const Tweet = ({tweet}) =>{
+    const dispatch = useDispatch();
     const calcTime = () => {
         const timeInSeconds = (new Date() - tweet.published)/1000
         if(timeInSeconds > SECONDS_IN_DAY){
@@ -21,11 +25,21 @@ const Tweet = ({tweet}) =>{
             return length;
         }
     }
-    // const handleClick = (length) => {
-    //     if(length > 0){
-    //         return length;
-    //     }
-    // }
+    const handleLikes = async () => {
+        try{
+            dispatch(like(tweet.id, {
+                ...tweet,
+                likes:tweet.likes+1
+            }))
+        }catch(error){
+            console.log(error)
+        }
+        // console.log(tweet)
+        // console.log({
+        //         ...tweet,
+        //         likes:tweet.likes+1
+        //     })
+    }
     return(
         <div className = 'tweet-box'>
             <img className = 'pfp' src = 'logo192.png' alt = 'pfp'/>
@@ -43,11 +57,11 @@ const Tweet = ({tweet}) =>{
                 </div>
                 <div className = 'tweet-footer'>
                     <div className = 's-button'>
-                        <img src = 'logo192.png' alt = 'pfp'/>{showNumber(tweet.replies.length)}
+                        <img src = 'logo192.png' alt = 'reply'/>{showNumber(tweet.replies.length)}
                     </div>
-                    <div className = 's-button'><img src = 'logo192.png' alt = 'pfp'/>{showNumber(tweet.retweets.length)}</div>
-                    <div className = 's-button'><img src = 'logo192.png' alt = 'pfp'/>{showNumber(tweet.replies.length)}</div>
-                    <div className = 's-button'><img src = 'logo192.png' alt = 'pfp'/>{showNumber(tweet.replies.length)}</div>
+                    <div className = 's-button'><img src = 'logo192.png' alt = 're-tweet'/>{showNumber(tweet.retweets.length)}</div>
+                    <div className = 's-button'><img src = 'logo192.png' alt = 'quote'/>{showNumber(tweet.quotes.length)}</div>
+                    <div className = 's-button'><img src = 'logo192.png' alt = 'like' onClick = {handleLikes}/>{showNumber(tweet.likes)}</div>
                 </div>
 
             </div>

@@ -75,14 +75,14 @@ tweetsRouter.post('/', async (request, response) => {
 
 // });
 
-// tweetsRouter.put('/:id', async (request, response) => {
-// 	const body = request.body;
-// 	const blog = {
-// 		likes: body.likes
-// 	};
+tweetsRouter.put('/:id', async (request, response) => {
+	const body = request.body;
+	const tweet = {
+		likes: body.likes
+	};
 
-// 	const putBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {new: true}).populate('user', {username: 1, name: 1});
-// 	response.json(putBlog);
-// });
+	const putTweet = await Tweet.findByIdAndUpdate(request.params.id, tweet, {new: true}).populate('author', {username: 1, name: 1});
+	response.json(putTweet);
+});
 
 module.exports = tweetsRouter;

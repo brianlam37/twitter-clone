@@ -6,30 +6,26 @@ import Login from './components/Login'
 import axios from 'axios'
 import CreateUser from './components/CreateUser';
 import tweetService from './services/tweets'
+import {useDispatch, useSelector} from 'react-redux';
+import {initTweet, create as createTweet} from './reducers/tweetReducer';
 function App() {
     const history = useHistory();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [user, setUser] = useState(null);
     const [tweet, setTweet] = useState('');
-    const [tweets, setTweets] = useState([]);
     const [showLogin, setShowLogin] = useState(false);
     const [showCreate, setShowCreate] = useState(false);
+
+    const tweets = useSelector(state => state.tweets);
+    const dispatch = useDispatch();
+
     useEffect(() =>{
         setUser(JSON.parse(window.localStorage.getItem('loggedUser')));
-
     }, [])
     useEffect(() => {
-        tweetService.getAll()
-            .then(response => setTweets(
-                response.map(tweet => {
-                    return {
-                        ...tweet, 
-                        published: new Date(tweet.published)}
-                }).sort((a,b) => b.published-a.published)
-            ))
-            .catch(error => console.log(error))
-    },[])
+        dispatch(initTweet());
+    },[dispatch])
     const handleUsername = e => {
         setUsername(e.target.value);
     }
@@ -45,7 +41,6 @@ function App() {
             username,
             password
         }).then(response => {
-            console.log(response);
             window.localStorage.setItem('loggedUser', JSON.stringify(response.data));
             setUser(response.data)
             tweetService.setToken(response.data.token);
@@ -62,23 +57,18 @@ function App() {
     }
     const handleTweet = async e => {
         e.preventDefault();
-        console.log(user.token)
         const tweetObject = {
             message: tweet,
             author: user.id
         }
         setTweet('');
         try{
-            const response = await tweetService.create(tweetObject);
-            const newTweet = {
-                ...response, 
-                published: new Date(response.published)
-            }
-            setTweets(tweets.concat(newTweet).sort((a,b) => b.published-a.published))
+            dispatch(createTweet(tweetObject))
         }catch (error){
             console.log(error)
         }
     }
+
     const showLoginForm = () => {
         if(showLogin){
             

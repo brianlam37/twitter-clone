@@ -14,7 +14,8 @@ const schema = new mongoose.Schema({
         ref: 'User'
     },
     likes: {
-        default:0
+        type: Number,
+        default:0,
     },
     replies: [
 		{
