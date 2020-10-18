@@ -1,38 +1,155 @@
-.App {
-  text-align: center;
+.tweet-box{
+    grid-area:middle;
+    outline: 1px solid;
+    outline-color: #EEE;
+    display: grid;
+    margin-top: 1px;
+    grid-template-areas: 
+        'pic inner';
+    grid-template-columns: fit-content(60px) auto;
+    padding:10px;
+}
+.tweet-box-inner{
+    grid-area:inner;
+    display: grid;
+    grid-template-areas: 
+        'header'
+        'message'
+        'footer';
+}
+/* .tweet-box{
+    grid-area:middle;
+    border:solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: #EEE;
+    display: grid;
+    grid-template-areas: 
+        'header        header        .           .'
+        'header        header        .           .'
+        '.          .           .           .'
+        'message    message     message     message'
+        'time       .           .           .'
+        'linebreak  linebreak   linebreak   linebreak'
+        's-button   s-button    s-button    s-button';
+    padding:10px;
+} */
+.tweet-box:hover{
+    background:#EEE;
+}
+/* .tweet-name{
+    margin-left: 10px;
+    grid-area:name;
+    display:grid;
+    grid-template-areas: 
+    'link handle';
+
+} */
+.tweet-name{
+    margin-left:0px;
+    grid-area:name;
+    display:grid;
+    grid-template-areas: 
+    'link handle';
+
+}
+.tweet-name a {
+    color:#000;
+    text-decoration: none;
+    font-weight: bold;
+    margin:0;
+    grid-area:link
+}
+.tweet-name a:hover {
+    color:#000;
+    text-decoration: underline;
+    font-weight: bold;
+    margin:0
+}
+.tweet-name p {
+    color:#CCC;
+    margin:0 0 0 5px;
+    grid-area:handle
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.pfp{
+    grid-area:pic;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    margin:0 5px 0 0;
+    padding:5px
+}
+.pfp:hover{
+    background:#CCC;
+}
+.tweet-header{
+    margin:0px;
+    display:grid;
+    grid-area:header;
+    grid-template-areas: 
+        'pic name name name';
+    align-content: center; 
+    justify-self:left
+}
+.message {
+    grid-area:message;
+    margin-bottom: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.linebreak {
+    grid-area:linebreak;
+    margin: 20px 0;
+    border-style: solid;
+    opacity: 0.1;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.time {
+    grid-area: time
 }
 
-.App-link {
-  color: #61dafb;
+
+
+.main{
+    display:grid;
+    grid-template-areas: 
+    'left middle right';
+    grid-template-columns: 1fr 1fr 1fr;
+    align-content: center;
+}
+.right{
+    grid-area: right;
+    margin-left:50px;
+}
+.left{
+    grid-area: left;
+    margin-right:50px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.tweet-footer {
+    grid-area: footer;
+    display: grid;
+    grid-template-areas: 
+    's-button s-button s-button s-button';
+    align-content: center;
+}
+.s-button > img{
+    width: 20px;
+    height: 20px;
+    grid-area: pic;
+    border-radius: 100%;
+}
+.tweet-footer  > .s-button > img:hover{
+    background:#CCC;
+}
+
+.s-button {
+    display:grid;
+    align-content: center;
+    grid-template-areas: 
+        'pic count';
+    grid-template-columns: fit-content(20px) auto;
+}
+.s-button > p{
+    grid-area: count;
 }
