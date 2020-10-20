@@ -1,0 +1,90 @@
+.clicked-tweet-box{
+    display:grid;
+    grid-template-areas:
+        'header'
+        'message'
+        'footer';
+    outline: 1px solid;
+    outline-color: #EEE;
+    padding:10px
+}
+
+.clicked-tweet-header {
+    grid-area:header;
+    display: grid;
+    grid-template-columns: fit-content(60px) auto;
+    grid-template-areas:
+        'pic name'
+}
+.clicked-tweet-pfp{
+    grid-area:pic;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    margin:0 5px 0 0;
+    padding:5px
+}
+.clicked-tweet-name{
+    margin-left:0px;
+    grid-area:name;
+}
+.clicked-tweet-name a {
+    color:#000;
+    text-decoration: none;
+    font-weight: bold;
+    margin:0;
+    grid-area:link
+}
+.clicked-tweet-name a:hover {
+    color:#000;
+    text-decoration: underline;
+    font-weight: bold;
+    margin:0
+}
+.clicked-tweet-name p {
+    margin:0;
+    color:#777;
+    grid-area:handle;
+}
+.clicked-tweet-message {
+    margin-left:5px;
+    grid-area:message;
+    font-size:23px
+}
+.clicked-tweet-footer{
+    margin-left:5px;
+    grid-area:footer
+}
+.clicked-time{
+    margin-top:15px;
+    margin-bottom:15px
+}
+.clicked-time > a {
+    color:#777;
+    text-decoration: none;
+
+}
+.clicked-time > a:hover{
+    text-decoration: underline;
+}
+
+.stats {
+    color:#777;
+    padding-top:15px;
+    padding-bottom:15px;
+    border-top: solid;
+    border-color: #EEE;
+    border-width: 1px;
+}
+.stat {
+    display: inline;
+    margin:0;
+    padding-left: 5px;
+    padding-right:15px;
+}
+
+.button {
+    display: inline;
+    padding-left: 60px;
+    padding-right:60px;
+}

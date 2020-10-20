@@ -1,16 +1,26 @@
-import React from 'react'
-import tweetService from '../services/tweets'
+import React, {useState} from 'react'
+import {useHistory, Link} from 'react-router-dom';
 import {useDispatch} from 'react-redux'
+import Reply from './Reply'
 import {like} from '../reducers/tweetReducer'
+import '../css/tweet.css'
 const SECONDS_IN_DAY  = 86400
 const SECONDS_IN_HOUR = 3600
 const SECONDS_IN_MIN = 60
 const Tweet = ({tweet}) =>{
+    const history = useHistory();
+    const [showReply, setShowReply] = useState(false);
     const dispatch = useDispatch();
     const calcTime = () => {
         const timeInSeconds = (new Date() - tweet.published)/1000
         if(timeInSeconds > SECONDS_IN_DAY){
-            return `${Math.floor((timeInSeconds/SECONDS_IN_DAY))}d`
+            return tweet.published.toLocaleString("en-US", 
+            {
+                timeZone: "America/Los_Angeles", 
+                month: 'short', 
+                day: 'numeric'
+            }
+        )
         }
         if(timeInSeconds > SECONDS_IN_HOUR){
             return `${Math.floor((timeInSeconds/SECONDS_IN_HOUR))}h`
@@ -34,38 +44,77 @@ const Tweet = ({tweet}) =>{
         }catch(error){
             console.log(error)
         }
-        // console.log(tweet)
-        // console.log({
-        //         ...tweet,
-        //         likes:tweet.likes+1
-        //     })
+    }
+    const handleReply = async () => {
+        setShowReply(true)
+    }
+    const closeModal = (e) => {
+        if(e.target === document.getElementById('modal-back')){
+            setShowReply(false)
+        }
+        if(e.target === document.getElementById('close-button')){
+            setShowReply(false)
+        }
+    }
+    const handleClickTweet = (e) => {
+        let selection = window.getSelection().toString()
+        if (selection) {
+            return;
+        }
+        switch(e.target){
+            case document.getElementById(`${tweet.id}-likes`):{
+                break;
+            }
+            case document.getElementById(`${tweet.id}-replies`):{
+                break;
+            }
+            default:{
+                e.preventDefault()
+                history.push(`/${tweet.author.username}/status/${tweet.id}`);
+            }
+        }
+
     }
     return(
-        <div className = 'tweet-box'>
-            <img className = 'pfp' src = 'logo192.png' alt = 'pfp'/>
-            <div className = 'tweet-box-inner'>
-                <div className = 'tweet-header'>
-                    <div className = 'tweet-name'>
-                        <a href = 'someplace'>{tweet.author.name}</a>
-                        <p>
-                            @{tweet.author.username} · {calcTime()}
-                        </p>
+        <>
+            <Reply tweet = {tweet} show = {showReply} closeModal = {closeModal}></Reply>
+            <div id = {tweet.id} className = 'tweet-box' onClick = {handleClickTweet}>
+                <img className = 'pfp' src = 'logo192.png' alt = 'pfp'/>
+                <div className = 'tweet-box-inner'>
+                    <div className = 'tweet-header'>
+                        <div className = 'tweet-name'>
+                            <Link className = 'name' to ={`/${tweet.author.username}`}>
+                                {tweet.author.name}
+                            </Link>
+                            <p>
+                                @{tweet.author.username} 
+                                {' · '} 
+                                <Link className = 'time' to ={`/${tweet.author.username}/status/${tweet.id}`}>
+                                    {calcTime()}
+                                </Link>
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div className = 'message'>
-                    {tweet.message}
-                </div>
-                <div className = 'tweet-footer'>
-                    <div className = 's-button'>
-                        <img src = 'logo192.png' alt = 'reply'/>{showNumber(tweet.replies.length)}
+                    <div className = 'message'>
+                        {tweet.message}
                     </div>
-                    <div className = 's-button'><img src = 'logo192.png' alt = 're-tweet'/>{showNumber(tweet.retweets.length)}</div>
-                    <div className = 's-button'><img src = 'logo192.png' alt = 'quote'/>{showNumber(tweet.quotes.length)}</div>
-                    <div className = 's-button'><img src = 'logo192.png' alt = 'like' onClick = {handleLikes}/>{showNumber(tweet.likes)}</div>
-                </div>
+                    <div className = 'tweet-footer'>
+                        <div className = 's-button'>
+                            <span id = {`${tweet.id}-replies`} className = 's-emoji' role = 'img' aria-label = 'replies' onClick = {handleReply}>💬</span>
+                            {showNumber(tweet.replies.length)}
+                        </div>
+                        <div className = 's-button'>
+                            <span id = 're-tweets' className = 's-emoji' role = 'img' aria-label = 'retweets' >🔁</span>
+                            {showNumber(tweet.retweets.length)}</div>
+                        <div  className = 's-button'>
+                            <span id = {`${tweet.id}-likes`} className = 's-emoji' role = 'img' aria-label = 'likes' onClick = {handleLikes}>❤️</span>
+                            {showNumber(tweet.likes)}
+                        </div>
+                    </div>
 
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 

@@ -1,0 +1,125 @@
+.tweet-box{
+    grid-area:middle;
+    outline: 1px solid;
+    outline-color: #EEE;
+    display: grid;
+    margin-top: 1px;
+    grid-template-areas: 
+        'pic inner';
+    grid-template-columns: fit-content(60px) auto;
+    padding:10px;
+}
+.tweet-box-inner{
+    grid-area:inner;
+    display: grid;
+    grid-template-areas: 
+        'header'
+        'message'
+        'footer';
+}
+
+.tweet-box:hover{
+    background:#EEE;
+}
+
+.tweet-name{
+    margin-left:0px;
+    grid-area:name;
+    display:grid;
+    grid-template-areas: 
+    'link handle';
+
+}
+.name{
+    color:#000;
+    text-decoration: none;
+    font-weight: bold;
+    margin:0;
+    grid-area:link
+}
+.name:hover {
+    color:#000;
+    text-decoration: underline;
+    margin:0
+}
+.tweet-name p {
+    color:#777;
+    margin:0 0 0 5px;
+    grid-area:handle
+}
+
+.pfp{
+    grid-area:pic;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    margin:0 5px 0 0;
+    padding:5px
+}
+.pfp:hover{
+    background:#CCC;
+}
+.tweet-header{
+    margin:0px;
+    display:grid;
+    grid-area:header;
+    grid-template-areas: 
+        'pic name name name';
+    align-content: center; 
+    justify-self:left
+}
+.message {
+    grid-area:message;
+    margin-bottom: 10px;
+}
+
+.linebreak {
+    grid-area:linebreak;
+    margin: 20px 0;
+    border-style: solid;
+    opacity: 0.1;
+}
+
+.time {
+    font-weight: normal;
+    color:#777;
+    text-decoration: none;
+}
+
+.time:hover {
+    text-decoration:underline
+}
+
+.tweet-footer {
+    grid-area: footer;
+    display: grid;
+    grid-template-areas: 
+    's-button s-button s-button s-button';
+    align-content: center;
+}
+.s-button > img{
+    width: 20px;
+    height: 20px;
+    grid-area: pic;
+    border-radius: 100%;
+}
+.tweet-footer  > .s-button > img:hover{
+    background:#CCC;
+}
+
+.s-button {
+    display:grid;
+    align-content: center;
+    grid-template-areas: 
+        'pic count';
+    grid-template-columns: fit-content(20px) auto;
+}
+.s-button > p{
+    grid-area: count;
+}
+
+.s-emoji:hover{
+    cursor: default;
+    background:#CCC;
+    border-radius: 100%;
+}

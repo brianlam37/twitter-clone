@@ -34,6 +34,16 @@ const schema = new mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Tweet'
 		}
+    ],
+    parent: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tweet'
+    },
+    mentioned:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
     ]
 })
 schema.set('toJSON', {

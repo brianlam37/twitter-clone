@@ -1,19 +1,37 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom'
-
-const Login = ({handleLogin, handlePassword, handleUsername, username, password}) =>{
+import {useDispatch, useSelector} from 'react-redux';
+import {getLoggedIn, login} from '../reducers/loginReducer';
+const Login = () =>{
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const history = useHistory();
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.loggedInUser)
     useEffect(() => {
-        if(window.localStorage.getItem('loggedUser')){
-            console.log('should push')
+        dispatch(getLoggedIn());
+        if(user){
             history.push('/')
         }
-    })
+    },[dispatch, user, history])
+    const handleUsername = e => {
+        setUsername(e.target.value);
+    }
+    const handlePassword = e => {
+        setPassword(e.target.value);
+    }
+    const handleLogin = e => {
+        e.preventDefault();
+        const loginInfo = {
+            username,
+            password
+        }
+        dispatch(login(loginInfo))
+    }
     return(
         <>
             Username:
             <div>
-                
                 <input value = {username} onChange = {handleUsername}/>
             </div>
             Password: 

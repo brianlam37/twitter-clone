@@ -38,16 +38,17 @@ export const like = (id, tweet) => {
 		});
 	};
 };
-// export const comment = (blog,comment) => {
-// 	return async dispatch => {
-// 		const result = await blogService.comment(blog.id, comment);
-// 		dispatch({
-// 			type: 'COMMENT',
-// 			blog,
-// 			comment:result
-// 		});
-// 	};
-// };
+
+export const reply = (tweet, reply) => {
+	return async dispatch => {
+		const result = await tweetService.reply(tweet.id, reply);
+		dispatch({
+			type: 'REPLY',
+			tweet,
+			reply:result
+		});
+	};
+};
 
 const reducer = (state = [], action) => {
 	let copy = [...state];
@@ -82,15 +83,15 @@ const reducer = (state = [], action) => {
 		// 		return action.blog.id !== blog.id;
 		// 	}).sort((a, b) => b.votes - a.votes);
 		// }
-		// case 'COMMENT':{
-		// 	const newComments = action.blog.comments.concat(action.comment);
-		// 	const newBlog = {...action.blog, comments:newComments};
-		// 	let target = copy.findIndex(blog => blog.id === action.blog.id);
-		// 	if(target > -1){
-		// 		copy[target] = newBlog;
-		// 	}
-		// 	return copy.sort((a, b) => b.votes - a.votes);
-		// }
+		case 'REPLY':{
+			const newReplies = action.tweet.replies.concat(action.reply);
+			const newTweet = {...action.tweet, replies: newReplies};
+			let target = copy.findIndex(tweet => tweet.id === action.tweet.id);
+			if(target > -1){
+				copy[target] = newTweet;
+			}
+			return copy.sort((a,b) => b.published-a.published);
+		}
 		default:
 			return copy
 	}

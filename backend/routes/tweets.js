@@ -5,7 +5,15 @@ const jwt = require('jsonwebtoken');
 
 tweetsRouter.get('/', async (request, response) => {
 	const tweets = await Tweet.find({})
-		.populate('author', {name: 1, username: 1})
+        .populate('author', {name: 1, username: 1})
+        .populate('parent', {name: 1, username: 1})
+        .populate({
+            path: 'replies',
+            populate: { 
+                path: 'author',
+                select: {name: 1, username: 1}
+            }
+          })
 	response.json(tweets);
 });
 
@@ -13,24 +21,6 @@ tweetsRouter.get('/:id', async (request, response) => {
 	const tweet = await Tweet.findById(request.params.id);
 	response.json(tweet);
 });
-
-// tweetsRouter.post('/:id/comments', async (request, response) => {
-
-// 	const body = request.body;
-// 	const decodedToken = jwt.verify(request.token, process.env.SECRET);
-// 	if (!request.token || !decodedToken.id) {
-// 		return response.status(401).json({error: 'token missing or invalid'});
-// 	}
-// 	const blog = await Blog.findById(request.params.id);
-// 	const comment = new Comment({
-// 		content: body.content,
-// 		blog: blog._id
-// 	});
-// 	const postedComment = await comment.save();
-// 	blog.comments = blog.comments.concat(postedComment._id);
-// 	await blog.save();
-// 	response.status(201).json(postedComment);
-// });
 
 tweetsRouter.post('/', async (request, response) => {
     const body = request.body;
@@ -54,6 +44,28 @@ tweetsRouter.post('/', async (request, response) => {
 	user.tweets = user.tweets.concat(postedTweet._id);
 	await user.save();
 	response.status(201).json(postedTweet);
+});
+
+tweetsRouter.post('/:id/reply', async (request, response) => {
+
+	const body = request.body;
+	const decodedToken = jwt.verify(request.token, process.env.SECRET);
+	if (!request.token || !decodedToken.id) {
+		return response.status(401).json({error: 'token missing or invalid'});
+	}
+    const tweet = await Tweet.findById(request.params.id);
+    const user = await User.findById(decodedToken.id);
+	const reply = new Tweet({
+		message: body.message,
+        author: user._id,
+        published: new Date(),
+        parent: body.parent,
+        mentioned: body.mentioned
+	});
+	const postedReply= await reply.save();
+	tweet.replies = tweet.replies.concat(postedReply._id);
+	await tweet.save();
+	response.status(201).json(postedReply);
 });
 
 // tweetsRouter.delete('/:id', async (request, response) => {
