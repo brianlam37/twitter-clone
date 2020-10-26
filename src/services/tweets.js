@@ -47,7 +47,7 @@ const reply = async (id, newObject) => {
 	return response.data;
 }
 
-export default {
+const tweetService = {
     getAll, 
     setToken, 
     create, 
@@ -56,3 +56,4 @@ export default {
     get, 
     reply
 };
+export default tweetService;

@@ -1,0 +1,28 @@
+.user-page-header {
+    /* display:grid; */
+    outline: 1px solid;
+    outline-color: #EEE;
+    margin-top: 1px;
+    grid-template-areas: 
+        'top'
+        'bottom';
+    grid-template-columns: fit-content(60px) auto;
+}
+.user-page-tweet-view-buttons {
+    margin:0;
+    display:grid;
+    grid-template-areas: 
+        'button button button';
+}
+.user-page-button{
+    text-align:center;
+    padding:10px;
+}
+.user-page-button:hover{
+    color:rgb(115, 190, 224);
+    background: #CCC;
+}
+
+.user-page-button-clicked {
+    border-bottom: #CCC solid;
+}

@@ -4,6 +4,7 @@ import '../css/clicked-tweet.css'
 import Tweets from './Tweets'
 import {useDispatch} from 'react-redux'
 import {like} from '../reducers/tweetReducer'
+import Modal from './Modal'
 import Reply from './Reply'
 const ClickedTweet = ({tweet}) =>{
     const dispatch = useDispatch();
@@ -59,12 +60,12 @@ const ClickedTweet = ({tweet}) =>{
     }
     return(
         <>
-        <Reply tweet = {tweet} show = {showReply} closeModal = {closeModal}></Reply>
+        <Modal modalId = 'modal-back-reply' show = {showReply} closeModal = {closeModal}><Reply tweet = {tweet}/></Modal>
         <div className = 'clicked-tweet-box'>
             <div className = 'clicked-tweet-header'>
-                <img className = 'clicked-tweet-pfp' src = {`http://localhost:3000/logo192.png`} alt = 'pfp'/>
+                <img className = 'clicked-tweet-pfp' src = 'http://localhost:3000/logo192.png' alt = 'pfp'/>
                 <div className = 'clicked-tweet-name'>
-                    <a href = 'someplace'>{tweet.author.name}</a>
+                    <Link to = {`/${tweet.author.username}`}>{tweet.author.name}</Link>
                     <p>
                         @{tweet.author.username}
                     </p>
@@ -106,7 +107,6 @@ const ClickedTweet = ({tweet}) =>{
                         <span id = 'likes' className = 's-emoji' role = 'img' aria-label = 'likes' onClick = {handleLikes}>❤️</span>
                     </div>
                 </div>
-                {console.log(tweet.replies)}
             </div>
             </div>
             <Tweets tweets ={tweet.replies} type = 'tweets&replies'/>

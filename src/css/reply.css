@@ -1,0 +1,36 @@
+.tweet-box-reply{
+    grid-area:middle;
+    display: grid;
+    grid-template-areas: 
+        'pic inner'
+        'line inner'
+        'line names';
+    grid-template-columns: fit-content(60px) auto;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.reply-name {
+    color:rgb(142, 215, 233);
+    text-decoration: none;
+}
+.reply-names {
+    grid-area:names;
+}
+
+.reply-line {
+    grid-area:line;
+    width:60px;
+    display:grid;
+    grid-template-areas: 
+    'left right';
+}
+.reply-right {
+    grid-area:right;
+    border-left: 2px solid #CCC;
+    height:100%
+}
+.reply-left {
+    grid-area:left
+}

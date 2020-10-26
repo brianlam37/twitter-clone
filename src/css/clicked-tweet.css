@@ -5,8 +5,9 @@
         'message'
         'footer';
     outline: 1px solid;
-    outline-color: #EEE;
-    padding:10px
+    outline-color: #888;
+    padding:10px;
+    margin-top: 1px;
 }
 
 .clicked-tweet-header {
@@ -73,7 +74,7 @@
     padding-top:15px;
     padding-bottom:15px;
     border-top: solid;
-    border-color: #EEE;
+    border-color: #888;
     border-width: 1px;
 }
 .stat {

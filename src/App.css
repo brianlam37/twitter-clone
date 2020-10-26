@@ -17,44 +17,26 @@
     margin-right:50px;
 }
 
-
-
-.modal {
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  }
-
-  .modal-content {
-    background-color: #fefefe;
-    margin:auto;
-    border: 1px solid #888;
-    width: 80%;
-    border-radius:15px
-  }
-
-  .inner-modal-content {
-    margin: 15px;
-    padding: 5px
-  }
-  .inner-modal-content-top {
-    margin: 15px;
-    padding: 5px;
-  }
-
-  .tweet-box-reply{
+.middle{
     grid-area:middle;
-    display: grid;
-    grid-template-areas: 
-        'pic inner';
-    grid-template-columns: fit-content(60px) auto;
-    padding:10px;
 }
 
+
+.header {
+    outline: 1px solid;
+    outline-color: #888;
+    padding:10px;
+    display:grid;
+    grid-template-columns: fit-content(60px) auto;
+    grid-template-areas: 
+        'left right';
+}
+.header-left {
+    grid-area:left;
+    font-size: 20px;
+    width: 60px;
+}
+.header-right {
+    grid-area:right;
+    padding-left:5px
+}

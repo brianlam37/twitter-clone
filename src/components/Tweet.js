@@ -1,18 +1,29 @@
 import React, {useState} from 'react'
 import {useHistory, Link} from 'react-router-dom';
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import Reply from './Reply'
+import Modal from './Modal'
 import {like} from '../reducers/tweetReducer'
 import '../css/tweet.css'
 const SECONDS_IN_DAY  = 86400
 const SECONDS_IN_HOUR = 3600
 const SECONDS_IN_MIN = 60
 const Tweet = ({tweet}) =>{
+
     const history = useHistory();
     const [showReply, setShowReply] = useState(false);
+    const user = useSelector(state => state.loggedInUser)
+    let tweetLikedIds = tweet.likes.map(l => l.id);
+    const tweetLikedAlready = tweetLikedIds.findIndex(id => id === user.id);
     const dispatch = useDispatch();
     const calcTime = () => {
-        const timeInSeconds = (new Date() - tweet.published)/1000
+        let published = tweet.published;
+        if(typeof(tweet.published) === 'string'){
+            published = new Date(tweet.published)
+        }
+
+        const timeInSeconds = (new Date() - published)/1000
+
         if(timeInSeconds > SECONDS_IN_DAY){
             return tweet.published.toLocaleString("en-US", 
             {
@@ -37,15 +48,27 @@ const Tweet = ({tweet}) =>{
     }
     const handleLikes = async () => {
         try{
-            dispatch(like(tweet.id, {
-                ...tweet,
-                likes:tweet.likes+1
-            }))
+            if(tweetLikedAlready > -1){
+                tweetLikedIds.splice(tweetLikedAlready, 1);
+                dispatch(
+                    like(tweet.id, {
+                        ...tweet,
+                        likes: tweetLikedIds
+                    })
+                )
+            }else{
+                dispatch(
+                    like(tweet.id, {
+                        ...tweet,
+                        likes: tweetLikedIds.concat(user.id)
+                    })
+                )
+            }
         }catch(error){
             console.log(error)
         }
     }
-    const handleReply = async () => {
+    const handleReply = () => {
         setShowReply(true)
     }
     const closeModal = (e) => {
@@ -68,6 +91,9 @@ const Tweet = ({tweet}) =>{
             case document.getElementById(`${tweet.id}-replies`):{
                 break;
             }
+            case document.getElementById(`${tweet.id}-link`):{
+                break;
+            }
             default:{
                 e.preventDefault()
                 history.push(`/${tweet.author.username}/status/${tweet.id}`);
@@ -77,13 +103,14 @@ const Tweet = ({tweet}) =>{
     }
     return(
         <>
-            <Reply tweet = {tweet} show = {showReply} closeModal = {closeModal}></Reply>
+        <Modal modalId = 'modal-back-reply' show = {showReply} closeModal = {closeModal}><Reply tweet = {tweet}/></Modal>
+
             <div id = {tweet.id} className = 'tweet-box' onClick = {handleClickTweet}>
                 <img className = 'pfp' src = 'logo192.png' alt = 'pfp'/>
                 <div className = 'tweet-box-inner'>
                     <div className = 'tweet-header'>
                         <div className = 'tweet-name'>
-                            <Link className = 'name' to ={`/${tweet.author.username}`}>
+                            <Link id = {`${tweet.id}-link`} className = 'name' to ={`/${tweet.author.username}`}>
                                 {tweet.author.name}
                             </Link>
                             <p>
@@ -107,8 +134,8 @@ const Tweet = ({tweet}) =>{
                             <span id = 're-tweets' className = 's-emoji' role = 'img' aria-label = 'retweets' >🔁</span>
                             {showNumber(tweet.retweets.length)}</div>
                         <div  className = 's-button'>
-                            <span id = {`${tweet.id}-likes`} className = 's-emoji' role = 'img' aria-label = 'likes' onClick = {handleLikes}>❤️</span>
-                            {showNumber(tweet.likes)}
+                            <span id = {`${tweet.id}-likes`} className = 's-emoji' role = 'img' aria-label = 'likes' onClick = {handleLikes}>{tweetLikedAlready > -1 ? '💔' : '❤️'}</span>
+                            {showNumber(tweet.likes.length)}
                         </div>
                     </div>
 

@@ -1,0 +1,49 @@
+.tweet-form {
+    padding:5px;
+    display:grid;
+    grid-template-areas: 
+        'left right';
+    grid-template-columns: fit-content(60px) auto;
+}
+
+.tweet-form-border {
+    outline: 1px solid;
+    outline-color: #888;
+    margin-top:1px;
+}
+
+.pfp-home-tweet{
+    grid-area:left;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    margin:0 5px 0 0;
+    padding:5px
+}
+.pfp-home-tweet:hover{
+    background:#CCC;
+}
+.tweet-form-right {
+    grid-area: right;
+    padding-top:15px;
+    padding-right: 15px;
+}
+.tweet-area {
+    resize:none;
+    width: 100%;
+    border:none;
+    outline:none;
+    font-size: 20px;
+    border-bottom: 1px solid #CCC;
+    overflow: hidden;
+}
+
+.tweet-area-size {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 20px;
+}
+
+#modal-tweet-area {
+    height:100px;
+}

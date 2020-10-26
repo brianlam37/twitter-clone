@@ -1,7 +1,7 @@
 .tweet-box{
     grid-area:middle;
     outline: 1px solid;
-    outline-color: #EEE;
+    outline-color: #888;
     display: grid;
     margin-top: 1px;
     grid-template-areas: 
@@ -71,6 +71,7 @@
 .message {
     grid-area:message;
     margin-bottom: 10px;
+    word-break: break-word;
 }
 
 .linebreak {

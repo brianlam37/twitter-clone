@@ -1,11 +1,11 @@
 import React, {useState} from 'react'
 import tweetService from '../services/tweets'
-import TweetForm from './TweetForm'
+// import TweetForm from './TweetForm'
 import Login from './Login'
 import CreateUser from './CreateUser'
 import {useDispatch} from 'react-redux'
 import {logout} from '../reducers/loginReducer'
-
+import LeftHome from './LeftHome'
 const LoginDisplay = (props) => {
     const dispatch = useDispatch();
     const [showLogin, setShowLogin] = useState(false);
@@ -65,7 +65,7 @@ const LoginDisplay = (props) => {
     return (
         <>
             <div className = 'left'>
-                <TweetForm/>
+                <LeftHome/>
             </div>
             <div className = 'right'>
                 <div>

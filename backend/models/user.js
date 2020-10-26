@@ -29,7 +29,16 @@ const schema = new mongoose.Schema({
     date: {
         type: Date,
         required: true
-    }
+    },
+
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tweet'
+    }],
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
 })
 
 schema.set('toJSON', {

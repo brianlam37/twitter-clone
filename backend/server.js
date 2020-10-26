@@ -1,6 +1,7 @@
 const express = require('express')
 require('dotenv').config();
 const cors = require('cors')
+require('express-async-errors')
 const app = express();
 const tweetRouter = require('./routes/tweets')
 const userRouter = require('./routes/users')
@@ -9,7 +10,6 @@ const mongoose = require('mongoose');
 const middleware = require('./utils/middleware');
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
-console.log(process.env.MONGODB_URI)
 mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true})
 	.then(() => {
 		console.log('connected to MongoDB')
